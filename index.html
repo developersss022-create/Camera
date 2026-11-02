@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>نمایش زنده دوربین</title>
+    <style>
+        body {
+            font-family: Tahoma, sans-serif;
+            text-align: center;
+            background-color: #f4f4f9;
+            margin-top: 50px;
+        }
+        video {
+            width: 100%;
+            max-width: 500px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            background: #000;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>تصویر زنده دوربین</h2>
+    <video id="cameraStream" autoplay playsinline></video>
+
+    <script>
+        async function startCamera() {
+            try {
+                // درخواست مجوز و دسترسی به دوربین
+                const stream = await navigator.mediaDevices.getUserMedia({ 
+                    video: { facingMode: "user" } // دوربین جلو؛ برای دوربین پشت از "environment" استفاده کنید
+                });
+                
+                // اتصال استریم دوربین به تگ ویدیو
+                const videoElement = document.getElementById('cameraStream');
+                videoElement.srcObject = stream;
+            } catch (error) {
+                console.error("خطا در دسترسی به دوربین:", error);
+                alert("امکان دسترسی به دوربین وجود ندارد. لطفاً مجوزهای مرورگر را بررسی کنید.");
+            }
+        }
+
+        // اجرای تابع هنگام لود صفحه
+        window.onload = startCamera;
+    </script>
+
+</body>
+</html>
